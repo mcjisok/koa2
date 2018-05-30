@@ -23,6 +23,9 @@ var PushSchema = new mongoose.Schema({
         type: ObjectId, 
         ref: 'User'
     },
+    pushdateAt:{
+        type:Date
+    },
     meta: {
         createAt: {
             type: Date,
@@ -31,7 +34,7 @@ var PushSchema = new mongoose.Schema({
         updateAt: {
             type: Date,
             default: Date.now()
-        }
+        }        
     }
 });
 

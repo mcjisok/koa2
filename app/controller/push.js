@@ -1,12 +1,19 @@
 const Push = require('../models/push')
 
 module.exports = {
+    // 保存发布的动态
     savePush:async(ctx,next)=>{
         let data = ctx.request.body
         let pushID = data.pushID
         console.log('请求数据源为：')
         console.log(data)
-
+        let now = data.isDrafts
+        // 判断是否立刻发布，如果是，就添加一个发布时间
+        if(now === false){
+            let pushdate = new Date()
+            data.pushdateAt = pushdate
+            console.log(data)
+        }
         if(pushID !== ''){
             console.log('这是要重新修改发布的数据')
             await new Promise((resolve,reject)=>{
@@ -29,7 +36,6 @@ module.exports = {
             })
         }
         else{
-            console.log('ceshi')
             await new Promise((resolve,reject)=>{
                 let push = new Push(data)
                 push.save((err,push)=>{
@@ -55,6 +61,7 @@ module.exports = {
         
     },
 
+    // 首页获取所有用户动态消息列表
     getPushList:async(ctx,next)=>{
         let reqParam = ctx.request.body;
         console.log(reqParam)
@@ -71,8 +78,8 @@ module.exports = {
 
         await new Promise((resolove,reject) =>{
             Push.find({'isDrafts':false})
-            .sort({ _id:-1})
-            .populate({ path: 'userID', select: 'username' })
+            .sort({ _id:-1,pushdateAt:-1})
+            .populate({ path: 'userID', select: 'username name userInfoPhoto' })
             .skip((page - 1) * size).limit(size)            
             .exec(function (err, docs) {
                 if (err) {
@@ -92,10 +99,13 @@ module.exports = {
         })        
     },
 
+    // 获取用户草稿箱中的动态消息列表
     getDraftsList:async(ctx,next)=>{
         let userid =ctx.request.body._id;
         await new Promise((resolove,reject)=>{
-            Push.find({userID:userid,isDrafts:true},(err,docs)=>{
+            Push.find({userID:userid,isDrafts:true})
+            .sort({_id:-1})
+            .exec((err,docs)=>{
                 if(err){
                     reject()
                 }
@@ -112,6 +122,7 @@ module.exports = {
         })
     },
 
+    // 删除单条动态消息
     delPush:async(ctx,next)=>{
         let data = ctx.request.body
         console.log('111111111111111111111111111111')
