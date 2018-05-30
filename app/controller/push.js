@@ -78,7 +78,7 @@ module.exports = {
 
         await new Promise((resolove,reject) =>{
             Push.find({'isDrafts':false})
-            .sort({ _id:-1,pushdateAt:-1})
+            .sort({ _id:-1,pushdateAt:1})
             .populate({ path: 'userID', select: 'username name userInfoPhoto' })
             .skip((page - 1) * size).limit(size)            
             .exec(function (err, docs) {
