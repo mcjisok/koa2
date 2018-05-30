@@ -29,7 +29,7 @@ module.exports = {
             })
         }
         else{
-            
+            console.log('ceshi')
             await new Promise((resolve,reject)=>{
                 let push = new Push(data)
                 push.save((err,push)=>{
