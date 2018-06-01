@@ -20,10 +20,13 @@ module.exports = {
 			// })
 			var a = await Push.findOne({_id:pushID}).exec()
 			if(a){
-				a.comment.push(comment._id)
+				a.comment.unshift(comment._id)
 				console.log(a)
 				let updatePush = await a.save()
-				var b = await comment.save((err,comment)=>{})
+				let saveComment = await comment.save()
+				let c = await Push.findOne({_id:pushID}).populate({ path: 'userID', select: 'username name userInfoPhoto' }).populate({ path:'comment',populate:{path:'from',select:['name','_id','userInfoPhoto']}}).exec()
+
+				ctx.response.body = {code:200,data:saveComment,data1:updatePush,test:c}
 			}
 			
 		}

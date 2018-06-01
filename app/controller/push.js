@@ -80,8 +80,10 @@ module.exports = {
             Push.find({'isDrafts':false})
             .sort({ _id:-1,pushdateAt:1})
             .populate({ path: 'userID', select: 'username name userInfoPhoto' })
-            .populate({ path:'comment',populate:{path:'from',select:['name','_id','userInfoPhoto']}})            
-            .skip((page - 1) * size).limit(size)            
+            .populate({ path: 'comment',populate:{path:'from',select:['name','_id','userInfoPhoto']}})   
+            .slice('comment', 3)         
+            .skip((page - 1) * size)
+            .limit(size)            
             .exec(function (err, docs) {
                 if (err) {
                     console.log(err);
