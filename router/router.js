@@ -3,6 +3,7 @@ const HomeController = require('../app/controller/home')
 const USER = require('../app/controller/user')
 const UPLOAD = require('../app/controller/fileUpload')
 const PUSH = require('../app/controller/push')
+const COMMENT = require('../app/controller/comment')
 
 module.exports = (app) => {
   router.get( '/', HomeController.index )
@@ -45,6 +46,10 @@ module.exports = (app) => {
   // 用户删除push 已发布的和草稿箱中的公用一个借口
   router.post('/delPush',PUSH.delPush)
 
+  // 评论 回复
+  router.post('/saveComment',COMMENT.saveComment)
+
+  
   app.use(router.routes())
     .use(router.allowedMethods())
 }
