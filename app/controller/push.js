@@ -80,7 +80,9 @@ module.exports = {
             Push.find({'isDrafts':false})
             .sort({ _id:-1,pushdateAt:1})
             .populate({ path: 'userID', select: 'username name userInfoPhoto' })
-            .populate({ path: 'comment',populate:{path:'from',select:['name','_id','userInfoPhoto']}})   
+            .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+
+            // .populate('reply.from reply.to','name')
             .slice('comment', 3)         
             .skip((page - 1) * size)
             .limit(size)            
