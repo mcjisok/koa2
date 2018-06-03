@@ -12,23 +12,58 @@ module.exports = {
 
 		if(_comment.cid){
 			console.log('这是回复的')
-			Comment.findById(_comment.cid,function(err,comment){
-				var reply = {
-					from:_comment.from,
-					to:_comment.to,
-					content:_comment.content
-				}
+			// Comment.findById(_comment.cid,function(err,comment){
+			// 	var reply = {
+			// 		from:_comment.from,
+			// 		to:_comment.to,
+			// 		content:_comment.content
+			// 	}
 
-				comment.reply.push(reply)
-				console.log('reply里面的数据为：' + comment)
-				comment.save(function(err,comment){
-					if(err){
-						console.log(err)
-					}
+			// 	comment.reply.push(reply)
+			// 	console.log('reply里面的数据为：' + comment)
+			// 	comment.save(function(err,comment){
+			// 		if(err){
+			// 			console.log(err)
+			// 		}
 
-					// res.redirect('/movie/' + productId)
-				})
+			// 		// res.redirect('/movie/' + productId)
+			// 	})
+			// })
+
+			let oldComment = await Comment.findOne({_id:_comment.cid}).exec()
+			console.log(oldComment)
+			let reply = {
+				from:_comment.from,
+				to:_comment.to,
+				content:_comment.content
+			}
+			oldComment.reply.unshift(reply)
+			let docs = await oldComment.save()
+			// let newReply = await Comment.findOne({_id:_comment.cid})
+			// 				.populate({path:'from',select:'name _id userInfoPhoto'})
+			// 				.populate({path:'reply.from reply.to',select:'name _id userInfoPhoto'})
+			// console.log('coscscscscs')
+			// console.log(newReply)
+
+			let c = await Push.findOne({_id:pushID})
+					.populate({ path: 'userID', select: 'username name userInfoPhoto' })
+					.populate({ 
+						path: 'comment',
+						populate:[
+							{path:'from',select:['name','_id','userInfoPhoto']},
+							{path:'reply.from',select:['name','_id','userInfoPhoto']},
+							{path:'reply.to',select:['name','_id','userInfoPhoto']}
+						]
+					})  
+					.slice('comment', 3)     
+					.exec()
+					
+			let success = Promise.all([oldComment,docs,c])
+			.then(res=>{
+				ctx.response.body = {code:200,data:c}				
 			})
+			
+
 		}
 		else{
 			// var c;
@@ -43,19 +78,27 @@ module.exports = {
 
 				let saveComment = await comment.save()
 
-				let newComment = await Comment.findOne({_id:comment._id})
-								.populate({ path:'from' , select:'name _id userInfoPhoto'})
-								.exec()
+				// let newComment = await Comment.findOne({_id:comment._id})
+				// 				.populate({ path:'from' , select:'name _id userInfoPhoto'})
+				// 				.exec()
 
 				let c = await Push.findOne({_id:pushID})
 						.populate({ path: 'userID', select: 'username name userInfoPhoto' })
-						.populate({ path:'comment',populate:{path:'from',select:['name','_id','userInfoPhoto']}})
+						.populate({ 
+							path: 'comment',
+							populate:[
+								{path:'from',select:['name','_id','userInfoPhoto']},
+								{path:'reply.from',select:['name','_id','userInfoPhoto']},
+								{path:'reply.to',select:['name','_id','userInfoPhoto']}
+							]
+						})  
+						.slice('comment', 3)     
 						.exec()
 
-				let success = Promise.all([updatePush, saveComment, newComment,c])
+				let success = Promise.all([updatePush, saveComment,c])
 				.then(function (results) {
 				    console.log(results);  // [1, 2, 3]
-					ctx.response.body = {code:200,data:newComment}//,data1:updatePush,test:c
+					ctx.response.body = {code:200,data:c}//,data1:updatePush,test:c
 
 				});
 			}			

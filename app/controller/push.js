@@ -101,7 +101,7 @@ module.exports = {
         })
         .catch(err=>{
             ctx.response.body = {code:404}
-        })        
+        })
     },
 
     // 获取用户草稿箱中的动态消息列表
