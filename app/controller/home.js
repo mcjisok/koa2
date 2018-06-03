@@ -1,4 +1,6 @@
 const HomeService = require('../service/home')
+const fs = require('fs')
+
 
 module.exports = {
   index: async(ctx, next) => {
@@ -32,5 +34,10 @@ module.exports = {
     } = ctx.request.body
     let data = await HomeService.register(name, password)
     ctx.response.body = data
+  },
+
+  mobile:async(ctx,next)=>{
+    ctx.response.type = 'html';
+    ctx.response.body = fs.createReadStream('././public/dist/index.html');
   }
 }

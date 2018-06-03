@@ -6,6 +6,8 @@ const PUSH = require('../app/controller/push')
 const COMMENT = require('../app/controller/comment')
 
 module.exports = (app) => {
+  router.get('/m',HomeController.mobile)
+
   router.get( '/', HomeController.index )
   
   router.get('/home', HomeController.home)
