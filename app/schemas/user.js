@@ -23,6 +23,7 @@ var UserSchema = new mongoose.Schema({
         default:''
     }, 
     useremail:{
+    useremail:{
         type:String,
         default:''
     },
@@ -42,6 +43,10 @@ var UserSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
+    groupList:[{
+        type:ObjectId,
+        ref:'Group'
+    }],
     role: {
         type: Number,
         default: 51

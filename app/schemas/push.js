@@ -27,6 +27,9 @@ var PushSchema = new mongoose.Schema({
         type:ObjectId,
         ref:'Comment'
     }],
+    groupID:{
+        type:ObjectId
+    },
     pushdateAt:{
         type:Date
     },
