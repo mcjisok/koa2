@@ -57,6 +57,11 @@ module.exports = (app) => {
   // 管理后台api
   // 用户管理板块
   router.get('/userlist',USER.getUserList)
+
+  // 获取push列表
+  router.get('/pushlist',PUSH.getPushAllList)
+  // 获取push详情列表
+  router.post('/getPushDetail',PUSH.getPushDetail)
   
   app.use(router.routes())
     .use(router.allowedMethods())

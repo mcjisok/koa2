@@ -150,5 +150,28 @@ module.exports = {
         .catch(e=>{
             ctx.response.body = e
         })
+    },
+
+    // 后台管理获取push列表
+    getPushAllList:async(ctx,next)=>{
+        let pushlist = await Push.find({})
+                        .sort({ _id:-1,pushdateAt:1})
+                        .populate({ path: 'userID', select: 'username name userInfoPhoto' })
+                        .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+                        .exec()
+        ctx.response.body = { code:200, data:pushlist}
+    },
+
+    // 后台获取push详情数据
+    getPushDetail:async(ctx,next)=>{
+        let req = ctx.request.body
+        console.log(req)
+        let pushdetail = await Push.findOne(req)
+                        .populate({path:'userID',select:'username name userInfoPhoto'})
+                        .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+                        .exec()
+        console.log(pushdetail)
+        ctx.response.body = {code:200,data:pushdetail}
+
     }
 }
