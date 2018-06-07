@@ -125,5 +125,13 @@ module.exports = {
             ctx.response.body = {code:404,msg:'保存失败'}
         })
 
+    },
+
+
+    // 管理后台api
+    getUserList:async(ctx,next)=>{
+        let userlist = await User.find({}).exec()
+        console.log(userlist)
+        ctx.response.body = { code:200, data:userlist}
     }
 }

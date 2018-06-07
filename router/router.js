@@ -51,6 +51,12 @@ module.exports = (app) => {
   // 评论 回复
   router.post('/saveComment',COMMENT.saveComment)
 
+
+
+
+  // 管理后台api
+  // 用户管理板块
+  router.get('/userlist',USER.getUserList)
   
   app.use(router.routes())
     .use(router.allowedMethods())
