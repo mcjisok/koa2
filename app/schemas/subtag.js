@@ -7,6 +7,10 @@ var SubTagSchema = new mongoose.Schema({
         type:String,
         default:''
     },
+    pTag:{//父标签的id索引
+        type:ObjectId,
+        ref:'Tag'
+    },
     tagPushList:[{//属于这个标签的动态
         type:ObjectId,
         ref:'Push',

@@ -6,6 +6,7 @@ const PUSH = require('../app/controller/push')
 const COMMENT = require('../app/controller/comment')
 const GROUP = require('../app/controller/group')
 const TAG = require('../app/controller/tag')
+const SUBTAG = require('../app/controller/subtag')
 
 module.exports = (app) => {
   router.get('/m',HomeController.mobile)
@@ -65,6 +66,12 @@ module.exports = (app) => {
   // 获取push详情列表
   router.post('/getPushDetail',PUSH.getPushDetail)
   
+
+  // 获取标签数据
+  router.get('/getTagList', TAG.getTagList)
+  //保存一级标签
+  router.post('/saveTag',TAG.saveTag) 
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }
