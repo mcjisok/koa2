@@ -2,26 +2,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId
 
-var TagSchema = new mongoose.Schema({
-    tagName:{//标签名称
+var SubTagSchema = new mongoose.Schema({
+    tagName:{
         type:String,
         default:''
     },
-    subTagList:[{//子标签列表
+    tagPushList:[{//属于这个标签的动态
         type:ObjectId,
-        ref:'SubTag',
+        ref:'Push',
         default:[]
     }],
-    // tagPushList:[{//属于这个标签的动态
-    //     type:ObjectId,
-    //     ref:'Push',
-    //     default:[]
-    // }],
-    // tagGroupList:[{//属于这个标签的圈子组
-    //     type:ObjectId,
-    //     ref:'Group',
-    //     default:[]
-    // }],
+    tagGroupList:[{//属于这个标签的圈子组
+        type:ObjectId,
+        ref:'Group',
+        default:[]
+    }],
     meta: {
         createAt: {
             type: Date,
@@ -32,10 +27,10 @@ var TagSchema = new mongoose.Schema({
             default: Date.now()
         }
     }
-
 })
 
-TagSchema.pre('save', function (next) {
+
+SubTagSchema.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createAt = this.meta.updateAt = Date.now();
     } else {
@@ -46,7 +41,7 @@ TagSchema.pre('save', function (next) {
 })
 
 
-TagSchema.statics = {
+SubTagSchema.statics = {
     fetch: function (cb) {
         return this
             .find({})
@@ -60,4 +55,4 @@ TagSchema.statics = {
     }
 }
 
-module.exports = TagSchema
+module.exports = SubTagSchema

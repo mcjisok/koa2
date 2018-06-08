@@ -4,6 +4,8 @@ const USER = require('../app/controller/user')
 const UPLOAD = require('../app/controller/fileUpload')
 const PUSH = require('../app/controller/push')
 const COMMENT = require('../app/controller/comment')
+const GROUP = require('../app/controller/group')
+const TAG = require('../app/controller/tag')
 
 module.exports = (app) => {
   router.get('/m',HomeController.mobile)

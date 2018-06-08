@@ -24,6 +24,11 @@ var GroupSchema = new mongoose.Schema({
         type:String,
         default:''
     },
+    groupTag:{
+        type:ObjectId,
+        ref:'Tag',
+        default:null
+    },
     groupRole:{//组权限
         type:Number,
         default:51
@@ -37,10 +42,10 @@ var GroupSchema = new mongoose.Schema({
         type:Number,
         default:10
     },
-    groupTag:{//组标签
+    groupTag:[{//组标签 数组
         type:ObjectId,
         default:null
-    },
+    }],
     groupRequest:[{//入组请求
         requestUser:{//申请入组的用户id
             type:ObjectId,
@@ -67,3 +72,31 @@ var GroupSchema = new mongoose.Schema({
     }
 
 })
+
+
+GroupSchema.pre('save', function (next) {
+    if (this.isNew) {
+        this.meta.createAt = this.meta.updateAt = Date.now();
+    } else {
+        this.meta.updateAt = Date.now();
+    }
+
+    next()
+})
+
+
+GroupSchema.statics = {
+    fetch: function (cb) {
+        return this
+            .find({})
+            .sort('meta.updateAt')
+            .exec(cb)
+    },
+    findById: function (id, cb) {
+        return this
+            .findOne({ _id: id })
+            .exec(cb)
+    }
+}
+
+module.exports = GroupSchema
