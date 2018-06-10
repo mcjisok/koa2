@@ -61,5 +61,20 @@ module.exports = {
         else{
             ctx.response.body = {code:400,data:null,message:"获取列表失败"}
         }
+    },
+
+    // 分别获取一级标签和二级标签
+    getAllTagList:async(ctx,next)=>{
+        let tagList = await Tag.find()
+                        .select('tagName')
+                        .exec()
+        // console.log('rere')
+        console.log(tagList)
+        if(tagList){
+            ctx.response.body={code:200,data:tagList,message:"获取列表成功"}
+        }
+        else{
+            ctx.response.body = {code:400,data:null,message:"获取列表失败"}
+        }
     }
 }

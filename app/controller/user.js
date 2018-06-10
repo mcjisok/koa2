@@ -133,5 +133,20 @@ module.exports = {
         let userlist = await User.find({}).exec()
         console.log(userlist)
         ctx.response.body = { code:200, data:userlist}
+    },
+
+
+    // 删除用户
+    delUser:async(ctx,next)=>{
+        let userdata = ctx.request.body
+        // console.log(userdata)
+        let deluser = await User.remove(userdata)
+        // console.log(deluser)
+        if(deluser.ok === 1 ){
+            ctx.response.body = {code:200,msg:'删除成功'}
+        }
+        else{
+            ctx.response.body = {code:400,msg:'删除失败'}
+        }
     }
 }

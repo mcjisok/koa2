@@ -27,7 +27,11 @@ var PushSchema = new mongoose.Schema({
         type:ObjectId,
         ref:'Comment'
     }],
-    groupID:{
+    tagID:[{
+        type:ObjectId,
+        ref:'SubTag'
+    }],
+    groupID:{//待规划
         type:ObjectId
     },
     pushdateAt:{

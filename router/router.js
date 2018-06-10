@@ -39,6 +39,9 @@ module.exports = (app) => {
   
 
 
+  // 发不动动态消息页面获取所有一级标签和二级标签
+  router.get('/getAllTagList',TAG.getAllTagList)
+
   // 用户发布新动态消息
   router.post('/savePush', PUSH.savePush)
 
@@ -48,7 +51,7 @@ module.exports = (app) => {
   // 用户获取草稿箱中的pushlist
   router.post('/getDraftsList',PUSH.getDraftsList)
 
-  // 用户删除push 已发布的和草稿箱中的公用一个借口
+  // 用户删除push 已发布的和草稿箱中的公用一个借口 管理后台删除push也用同一接口
   router.post('/delPush',PUSH.delPush)
 
   // 评论 回复
@@ -66,6 +69,8 @@ module.exports = (app) => {
   // 获取push详情列表
   router.post('/getPushDetail',PUSH.getPushDetail)
   
+  //根据id删除用户
+  router.post('/delUser',USER.delUser)
 
   // 获取标签数据
   router.get('/getTagList', TAG.getTagList)

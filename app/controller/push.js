@@ -1,4 +1,5 @@
 const Push = require('../models/push')
+const SubTag = require('../models/subtag')
 
 module.exports = {
     // 保存发布的动态
@@ -14,6 +15,17 @@ module.exports = {
             data.pushdateAt = pushdate
             console.log(data)
         }
+        // 判断是否有选择了标签
+        if(data.tagID.length >0){
+            let tagname = data.tagID.toString()
+            // data.tagID = tagname
+            console.log('获取到的二级标签数据',data.tagID)
+            let tagData = await SubTag.findOne({tagName:tagname}).exec()
+            console.log(tagData)
+            data.tagID = tagData._id
+
+        }
+        // 判断是否为修改草稿内容进行发布
         if(pushID !== ''){
             console.log('这是要重新修改发布的数据')
             await new Promise((resolve,reject)=>{
@@ -158,6 +170,7 @@ module.exports = {
                         .sort({ _id:-1,pushdateAt:1})
                         .populate({ path: 'userID', select: 'username name userInfoPhoto' })
                         .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+                        .populate({path:'tagID',select:['tagName'],populate:{path:'pTag',select:['tagName']}})
                         .exec()
         ctx.response.body = { code:200, data:pushlist}
     },
