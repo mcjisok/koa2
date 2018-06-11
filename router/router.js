@@ -76,6 +76,8 @@ module.exports = (app) => {
   router.get('/getTagList', TAG.getTagList)
   //保存一级标签
   router.post('/saveTag',TAG.saveTag) 
+  // 删除一级标签
+  router.post('/delTag',TAG.delTag)
 
   app.use(router.routes())
     .use(router.allowedMethods())

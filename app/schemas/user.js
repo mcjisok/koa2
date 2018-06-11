@@ -15,7 +15,7 @@ var UserSchema = new mongoose.Schema({
     name: {
         // unique: true,
         type: String,
-        default:''
+        default:'请修改昵称'
     },    
     userpassword: String,
     usermobile:{

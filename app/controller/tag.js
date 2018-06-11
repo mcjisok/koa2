@@ -76,5 +76,16 @@ module.exports = {
         else{
             ctx.response.body = {code:400,data:null,message:"获取列表失败"}
         }
+    },
+
+    delTag:async(ctx,next)=>{
+        let tagdata = ctx.request.body
+        let deltag = await Tag.remove(tagdata)
+        if(deltag.ok === 1 ){
+            ctx.response.body = {code:200,msg:'删除成功'}
+        }
+        else{
+            ctx.response.body = {code:400,msg:'删除失败'}
+        }
     }
 }
