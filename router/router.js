@@ -36,6 +36,8 @@ module.exports = (app) => {
   router.post('/uploadPushImg', UPLOAD.uploadPushImg)
   // 上传头像
   router.post('/uploadUserInfoImg', UPLOAD.uploadUserInfoImg)
+  // 上传分组封面照片
+  router.post('/uploadGroupImg',UPLOAD.uploadGroupImg)
   
 
 
@@ -56,6 +58,9 @@ module.exports = (app) => {
 
   // 评论 回复
   router.post('/saveComment',COMMENT.saveComment)
+
+  //提交分组申请
+  router.post('/saveGroup',GROUP.saveGroup)
 
 
 
@@ -78,6 +83,10 @@ module.exports = (app) => {
   router.post('/saveTag',TAG.saveTag) 
   // 删除一级标签
   router.post('/delTag',TAG.delTag)
+
+
+  // 获取分组数据
+  router.get('/getGroupList',GROUP.getGroupList)
 
   app.use(router.routes())
     .use(router.allowedMethods())

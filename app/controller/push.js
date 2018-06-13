@@ -172,6 +172,7 @@ module.exports = {
                         .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
                         .populate({path:'tagID',select:['tagName'],populate:{path:'pTag',select:['tagName']}})
                         .exec()
+        console.log('数据为：',pushlist)
         ctx.response.body = { code:200, data:pushlist}
     },
 

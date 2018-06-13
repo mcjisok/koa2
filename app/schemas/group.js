@@ -24,10 +24,9 @@ var GroupSchema = new mongoose.Schema({
         type:String,
         default:''
     },
-    groupTag:{
-        type:ObjectId,
-        ref:'Tag',
-        default:null
+    groupImg:{//组封面图片
+        type:String,
+        default:''
     },
     groupRole:{//组权限
         type:Number,
@@ -44,6 +43,7 @@ var GroupSchema = new mongoose.Schema({
     },
     groupTag:[{//组标签 数组
         type:ObjectId,
+        ref:'SubTag',
         default:null
     }],
     groupRequest:[{//入组请求
@@ -60,6 +60,10 @@ var GroupSchema = new mongoose.Schema({
             default:0
         }
     }],
+    state:{//分组发布状态 false为待审核,true为审核通过
+        type:Boolean,
+        default:false
+    },
     meta: {
         createAt: {
             type: Date,
