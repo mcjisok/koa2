@@ -88,6 +88,12 @@ module.exports = (app) => {
   // 获取分组数据
   router.get('/getGroupList',GROUP.getGroupList)
 
+  // 修改分组审核状态state
+  router.post('/changeGroupState',GROUP.changeGroupState)
+
+  // 删除分组
+  router.post('/delGroup',GROUP.delGroup)
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }
