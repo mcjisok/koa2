@@ -62,6 +62,9 @@ module.exports = (app) => {
   //提交分组申请
   router.post('/saveGroup',GROUP.saveGroup)
 
+  // 用户获取用户所加入的所有分组列表
+  router.post('/getMyGroupList',GROUP.getMygroup)
+
 
 
 
@@ -87,7 +90,7 @@ module.exports = (app) => {
 
   // 获取分组数据
   router.get('/getGroupList',GROUP.getGroupList)
-
+ 
   // 修改分组审核状态state
   router.post('/changeGroupState',GROUP.changeGroupState)
 

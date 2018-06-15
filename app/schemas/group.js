@@ -11,7 +11,7 @@ var GroupSchema = new mongoose.Schema({
         default:null
     },
     groupUserList:[{//成员列表
-        type:ObjectId,
+        type:Array,
         ref:'User',
         default:[]
     }],

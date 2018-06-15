@@ -1,5 +1,6 @@
 const Group = require('../models/group')
 const SubTag = require('../models/subtag')
+const User = require('../models/user')
 
 module.exports = {
     saveGroup:async(ctx,next)=>{
@@ -26,11 +27,16 @@ module.exports = {
             console.log('即将保存的data为',group)
 
             let save = await group.save()
-            // console.log(save)
+            console.log(save)
 
-            let result = Promise.all([save])
+            // let updatesUserGroup = {$set: {groupList: save._id}}
+            let findUser = await User.findById(save.groupLeader)
+            findUser.groupList.push(save._id)
+            let updateUser = await findUser.save()
+
+            let result = Promise.all([save,updateUser])
             .then(res=>{
-                ctx.response.body = {code:200,data:res,msg:'提交成功'}
+                ctx.response.body = {code:200,data:res.save,msg:'提交成功'}
             }).catch(e=>{
                 ctx.response.body = {code:400,msg:'提交失败',err:e}
             })    
@@ -77,6 +83,26 @@ module.exports = {
         }
         else{
             ctx.response.body = { code:200, msg:'删除失败'}
+        }
+    },
+
+    // 前台用户获取所在的所有分组列表
+    
+
+    getMygroup:async(ctx)=>{
+        // console.log(ctx)
+        let data =ctx.request.body
+        console.log(data)
+        let result = await User.findOne(data)
+                    .select('groupList')
+                    .populate({path:'groupList'})
+                    .exec()
+        console.log(result)
+        if(result){
+            ctx.response.body = {code:200,data:result,msg:'获取成功'}
+        }
+        else{
+            ctx.response.body = {code:400,msg:'获取失败'}
         }
     }
 }
