@@ -181,8 +181,9 @@ module.exports = {
         let req = ctx.request.body
         console.log(req)
         let pushdetail = await Push.findOne(req)
-                        .populate({path:'userID',select:'username name userInfoPhoto'})
+                        .populate({path:'userID',select:'username name userInfoPhoto logincount'})
                         .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+                        .populate({path:'tagID',select:['tagName'],populate:{path:'pTag',select:['tagName']}})
                         .exec()
         console.log(pushdetail)
         ctx.response.body = {code:200,data:pushdetail}

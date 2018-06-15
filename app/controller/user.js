@@ -60,7 +60,15 @@ module.exports = {
                             }
                             if (isMatch) {
                                 // 如果密码比对成功，传2
-                                resolve(user)
+                                User.update({_id:user.id},{$inc:{logincount:1}},function(err){
+                                    if(err){
+                                        reject(err)
+                                    }
+                                    else{
+                                        resolve(user)
+                                    }
+                                })
+                                
                             }
                             else {
                                 // 密码比对失败，传3

@@ -93,11 +93,12 @@ module.exports = {
         // console.log(ctx)
         let data =ctx.request.body
         console.log(data)
-        let result = await User.findOne(data)
+        let match = {state:data.state}
+        let result = await User.findOne({_id:data._id})
                     .select('groupList')
-                    .populate({path:'groupList'})
+                    .populate({path:'groupList',match:match})
                     .exec()
-        console.log(result)
+        console.log('获取到的数据为！！！',result)
         if(result){
             ctx.response.body = {code:200,data:result,msg:'获取成功'}
         }
