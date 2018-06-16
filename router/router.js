@@ -63,7 +63,10 @@ module.exports = (app) => {
   router.post('/saveGroup',GROUP.saveGroup)
 
   // 用户获取用户所加入的所有分组列表
-  router.post('/getMyGroupList',GROUP.getMygroup)
+  router.post('/getMyGroupList',GROUP.getMyGroup)
+
+  // 用户获取热门分组列表
+  router.get('/getHotGroupList',GROUP.getHotGroup)
 
 
 

@@ -1,6 +1,7 @@
 const Group = require('../models/group')
 const SubTag = require('../models/subtag')
 const User = require('../models/user')
+// const Group = require('../models/group')
 
 module.exports = {
     saveGroup:async(ctx,next)=>{
@@ -89,7 +90,7 @@ module.exports = {
     // 前台用户获取所在的所有分组列表
     
 
-    getMygroup:async(ctx)=>{
+    getMyGroup:async(ctx)=>{
         // console.log(ctx)
         let data =ctx.request.body
         console.log(data)
@@ -104,6 +105,18 @@ module.exports = {
         }
         else{
             ctx.response.body = {code:400,msg:'获取失败'}
+        }
+    },
+
+    getHotGroup:async(ctx)=>{
+        console.log('正在获取')
+        let data = await Group.find().exec()
+        console.log('获取到的热门分组列表为：',data)
+        if(data){
+            ctx.response.body = {code:200,data,msg:'获取热门分组成功'}
+        }
+        else{
+            ctx.response.body = {code:400,msg:'获取热门分组失败'}
         }
     }
 }
