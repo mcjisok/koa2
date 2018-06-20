@@ -88,7 +88,8 @@ module.exports = (app) => {
 
   // 获取push列表
   router.get('/pushlist',PUSH.getPushAllList)
-  // 获取push详情列表
+
+  // 获取push详情列表(移动端前台和PC端管理后台均使用该接口)
   router.post('/getPushDetail',PUSH.getPushDetail)
   
   //根据id删除用户

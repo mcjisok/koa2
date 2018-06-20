@@ -8,6 +8,7 @@ module.exports = {
 		let pushID = _comment.push
 		let comment = new Comment(_comment)
 
+		let maxCommentReply = _comment.maxCommentReply
 		// console.log(comment)
 
 		if(_comment.cid){
@@ -32,21 +33,18 @@ module.exports = {
 							{path:'reply.to',select:['name','_id','userInfoPhoto']}
 						]
 					})  
-					.slice('comment', 3)     
+					.slice('comment', maxCommentReply)     
 					.exec()
-					
 			let success = Promise.all([oldComment,docs,c])
 			.then(res=>{
+				console.log('即将更新的数据为',c)
+
 				ctx.response.body = {code:200,data:c}				
 			})
 			
 
 		}
 		else{
-			// var c;
-			// var a = await comment.save((err,comment)=>{
-			// 	console.log('aaaaaaaaaaaaaaaaaa')
-			// })
 			var a = await Push.findOne({_id:pushID}).exec()
 			if(a){
 				a.comment.unshift(comment._id)
@@ -65,7 +63,7 @@ module.exports = {
 								{path:'reply.to',select:['name','_id','userInfoPhoto']}
 							]
 						})  
-						.slice('comment', 3)     
+						.slice('comment', maxCommentReply)
 						.exec()
 
 				let success = Promise.all([updatePush, saveComment,c])

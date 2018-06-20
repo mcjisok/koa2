@@ -129,17 +129,7 @@ module.exports = {
         console.log(data)
         let groupDetail = await Group.findOne(data)
                         // .populate({path:'groupPushList'})
-                        .exec()
-        // console.log(groupDetail)
-
-        // let groupID = data._id
-        // let pushList = await Push
-        //                 .find({'groupID':groupID,'isDrafts':false})
-        //                 .sort({ _id:-1,pushdateAt:1})
-        //                 .populate({ path: 'userID', select: 'username name userInfoPhoto' })
-        //                 .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
-        // console.log(pushList)
-
+                        .exec()  
 
         if(groupDetail){
             ctx.response.body = {code:200,groupDetail,msg:'获取成功'}
