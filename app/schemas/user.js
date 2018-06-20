@@ -44,7 +44,8 @@ var UserSchema = new mongoose.Schema({
     },
     groupList:[{
         type:ObjectId,
-        ref:'Group'
+        ref:'Group',
+        default:[]
     }],
     role: {
         type: Number,

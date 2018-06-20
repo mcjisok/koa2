@@ -1,6 +1,7 @@
 const Group = require('../models/group')
 const SubTag = require('../models/subtag')
 const User = require('../models/user')
+const Push = require('../models/push')
 // const Group = require('../models/group')
 
 module.exports = {
@@ -108,6 +109,7 @@ module.exports = {
         }
     },
 
+    // 获取热门分组列表
     getHotGroup:async(ctx)=>{
         console.log('正在获取')
         let data = await Group.find().exec()
@@ -118,5 +120,63 @@ module.exports = {
         else{
             ctx.response.body = {code:400,msg:'获取热门分组失败'}
         }
-    }
+    },
+
+
+    // 获取分组详情页
+    getGroupDetail:async(ctx,next)=>{
+        let data = ctx.request.body
+        console.log(data)
+        let groupDetail = await Group.findOne(data)
+                        // .populate({path:'groupPushList'})
+                        .exec()
+        // console.log(groupDetail)
+
+        // let groupID = data._id
+        // let pushList = await Push
+        //                 .find({'groupID':groupID,'isDrafts':false})
+        //                 .sort({ _id:-1,pushdateAt:1})
+        //                 .populate({ path: 'userID', select: 'username name userInfoPhoto' })
+        //                 .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+        // console.log(pushList)
+
+
+        if(groupDetail){
+            ctx.response.body = {code:200,groupDetail,msg:'获取成功'}
+        }
+        else{
+            ctx.response.body = {code:400,msg:'获取失败'}            
+        }
+    },
+    //获取指定分组的push列表
+    getGroupPushList:async(ctx,next)=>{
+        let reqParam = ctx.request.body
+        let groupID = reqParam.groupID
+
+        let total = await Push.count({groupID:groupID});
+        let page = Number(reqParam.page);
+        console.log(page)
+        let size =3;
+        let hasMore = total - (page - 1) * size > size ? true : false;
+
+
+        let pushList = await Push
+                        .find({groupID:groupID,isDrafts:false})
+                        .sort({ _id:-1,pushdateAt:1})
+                        .populate({ path: 'userID', select: 'username name userInfoPhoto' })
+                        .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+                        .slice('comment', 3)         
+                        .skip((page - 1) * size)
+                        .limit(size) 
+        console.log('前台传来的数据为：',reqParam)
+
+        if(pushList){
+            ctx.response.body = { code: 200, hasMore: hasMore, pushList: pushList, total: total }                        
+        }
+        else{
+            ctx.response.body = { code:400}
+        }
+        // console.log(pushList)
+        
+    } 
 }

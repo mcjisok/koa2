@@ -68,8 +68,19 @@ module.exports = (app) => {
   // 用户获取热门分组列表
   router.get('/getHotGroupList',GROUP.getHotGroup)
 
+  // 用户获取分组详情
+  router.post('/getGroupDetail',GROUP.getGroupDetail)
+  // 用户获取指定分组push列表
+  router.post('/getGroupPushList',GROUP.getGroupPushList)
+
+  router.post('/test1',async(ctx,next)=>{
+    console.log(ctx.request.body)
+  })
 
 
+
+
+  
 
   // 管理后台api
   // 用户管理板块

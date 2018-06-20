@@ -32,7 +32,8 @@ var PushSchema = new mongoose.Schema({
         ref:'SubTag'
     }],
     groupID:{//待规划
-        type:ObjectId
+        type:ObjectId,
+        ref:'Group'
     },
     pushdateAt:{
         type:Date

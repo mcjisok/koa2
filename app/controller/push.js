@@ -1,5 +1,6 @@
 const Push = require('../models/push')
 const SubTag = require('../models/subtag')
+const Group = require('../models/group')
 
 module.exports = {
     // 保存发布的动态
@@ -23,8 +24,8 @@ module.exports = {
             let tagData = await SubTag.findOne({tagName:tagname}).exec()
             console.log(tagData)
             data.tagID = tagData._id
-
         }
+        
         // 判断是否为修改草稿内容进行发布
         if(pushID !== ''){
             console.log('这是要重新修改发布的数据')
@@ -48,28 +49,26 @@ module.exports = {
             })
         }
         else{
-            await new Promise((resolve,reject)=>{
-                let push = new Push(data)
-                push.save((err,push)=>{
-                    if(err){
-                        console.log(err)
-                        reject(err)
-                    }
-                    else{
-                        resolve(push)
-                    }
-                })
-            })
-            .then(res=>{
-                console.log(res)
-                ctx.response.body = { code:200,msg:'发布成功'}
-            })
-            .catch(err=>{
+            let push = new Push(data)
+            let save = await push.save()
+            
+            // console.log('数据为！！！！！！！！！',data)
+            // 判断是否有选择分组，如果有，就将pushid添加在相应的group表中的pushlist字段中
+            if(data.groupID && data.groupID !== null){
+                let pushid = push._id
+                let group = await Group.findOne({_id:data.groupID}).exec()
+                // console.log('返回的分组信息为',group)
+                group.groupPushList.push(pushid)
+                let updateGroup = await group.save()
+            }
+            if(save){
+                ctx.response.body = { code:200,data:save,msg:'发布成功'}                
+            }
+            else{
                 ctx.response.body = { code:400, msg:'发布失败'}
-            })
+            }            
         }
-        // console.log('长度' + data.length)
-        // console.log(data)
+        
         
     },
 
