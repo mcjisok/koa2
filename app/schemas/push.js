@@ -12,8 +12,7 @@ var PushSchema = new mongoose.Schema({
         default:''
     },
     pushImageList:{
-        type: Array,
-        default:[]
+        type: Array
     },
     isDrafts:{
         type:Boolean,
