@@ -54,7 +54,7 @@ module.exports = {
                         .populate({path:'subTagList'})
                         .exec()
         // console.log('rere')
-        console.log(tagList)
+        console.log(typeof(tagList))
         if(tagList){
             ctx.response.body={code:200,data:tagList,message:"获取列表成功"}
         }

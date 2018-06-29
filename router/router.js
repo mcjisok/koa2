@@ -7,6 +7,7 @@ const COMMENT = require('../app/controller/comment')
 const GROUP = require('../app/controller/group')
 const TAG = require('../app/controller/tag')
 const SUBTAG = require('../app/controller/subtag')
+const IMAGE = require('../app/controller/image')
 
 module.exports = (app) => {
   router.get('/m',HomeController.mobile)
@@ -111,6 +112,13 @@ module.exports = (app) => {
 
   // 删除分组
   router.post('/delGroup',GROUP.delGroup)
+
+
+  // 相册管理
+  // 新建相册
+  router.post('/savePhotoGroup',IMAGE.savePhotoGroup)
+  // 获取所有相册列表
+  router.get('/getPhotoGroupList',IMAGE.getPhotoGroupList)
 
   app.use(router.routes())
     .use(router.allowedMethods())
