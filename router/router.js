@@ -119,6 +119,10 @@ module.exports = (app) => {
   router.post('/savePhotoGroup',IMAGE.savePhotoGroup)
   // 获取所有相册列表
   router.get('/getPhotoGroupList',IMAGE.getPhotoGroupList)
+  // 在相册中上传照片
+  router.post('/uploadPhoto',UPLOAD.uploadPhoto)
+  // 获取指定相册中的所有照片
+  router.post('/getPhotoList',IMAGE.getPhotoList)
 
   app.use(router.routes())
     .use(router.allowedMethods())

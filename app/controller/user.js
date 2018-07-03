@@ -41,7 +41,8 @@ module.exports = {
     },
 
     login:async(ctx,next) =>{
-        const userdata = ctx.request.body    
+        const userdata = ctx.request.body  
+        console.log('用户请求为：',ctx.request)  
         // console.log(userdata)    
         await new Promise((resolve, reject) =>{
             User.findOne({ username: userdata.username},function(err,user){
@@ -96,6 +97,7 @@ module.exports = {
                 console.log(a._id)
                 ctx.state.loginID = a._id
                 ctx.response.body = { code: 2, msg: '登录成功', userID: a._id, username:a.username, name:a.name,userinfo:a}   
+                
             }
         }) .catch(err=>{
             console.log(err)
