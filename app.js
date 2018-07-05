@@ -6,6 +6,9 @@ const json = require('koa-json')
 const router = require('./router/router')
 const cors = require('koa2-cors');
 
+
+
+
 // 解析上传文件 可以填充到ctx.request
 const koaBody = require('koa-body');
 // 连接mongodb

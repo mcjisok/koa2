@@ -81,6 +81,9 @@ module.exports = {
                         type = file.type.split('/')[1],
                         poster = timestamp + '.' + type,
                         newPath = path.join(__dirname, '../../', 'public/groupImgUpload/' + poster)
+                    if(fs.existsSync('public/groupImgUpload') === false){
+                        fs.mkdirSync('public/groupImgUpload')
+                    }
                     fs.writeFile(newPath, data, function (err) {
                         console.log('写入文件成功')
                         const url = '/groupImgUpload/' + poster                       

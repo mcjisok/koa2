@@ -1,5 +1,12 @@
 const User = require('../models/user')
 
+const jwt = require('jsonwebtoken')
+const jwtKoa = require('koa-jwt')
+const util = require('util')
+const verify = util.promisify(jwt.verify) // 解密
+const secret = 'jwt demo'
+
+
 module.exports = {
     register:async(ctx,next) =>{
         console.log(ctx)
@@ -43,6 +50,7 @@ module.exports = {
     login:async(ctx,next) =>{
         const userdata = ctx.request.body  
         console.log('用户请求为：',ctx.request)  
+        console.log('请求头部为：',ctx.header.authorization)
         // console.log(userdata)    
         await new Promise((resolve, reject) =>{
             User.findOne({ username: userdata.username},function(err,user){
@@ -96,7 +104,15 @@ module.exports = {
                 a.userpassword = ''
                 console.log(a._id)
                 ctx.state.loginID = a._id
-                ctx.response.body = { code: 2, msg: '登录成功', userID: a._id, username:a.username, name:a.name,userinfo:a}   
+
+                let userToken = {
+                    userID: a._id,
+                    username:a.username,
+                    name:a.name,
+                }
+                const token = jwt.sign(userToken, secret, {expiresIn: '1h'})
+
+                ctx.response.body = { code: 2, msg: '登录成功', userID: a._id, username:a.username, name:a.name,userinfo:a,token:token}   
                 
             }
         }) .catch(err=>{
