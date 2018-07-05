@@ -75,6 +75,8 @@ module.exports = {
     // 首页获取所有用户动态消息列表
     getPushList:async(ctx,next)=>{
         let reqParam = ctx.request.body;
+        console.log('请求头部为：',ctx.header.authorization)
+
         console.log(reqParam)
         let total = await Push.count();
         let page = Number(reqParam.page);

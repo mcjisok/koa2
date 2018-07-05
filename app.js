@@ -5,7 +5,8 @@ const logger = require('koa-logger')
 const json = require('koa-json')
 const router = require('./router/router')
 const cors = require('koa2-cors');
-
+const jwt = require('koa-jwt');
+const tokenError = require('./app/middlreware/tokenError');
 
 
 
@@ -31,7 +32,7 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 app.use(cors())
-
+app.use(tokenError())
 // koabody和中间件bodyParser 冲突重复，只选用一个即可
 app.use(koaBody({
   multipart: true,
@@ -45,7 +46,11 @@ app.use(koaBody({
 
 router(app)
 
-
+app.use(jwt({
+  secret: 'test'
+}).unless({
+  path: [/^\/backapi\/admin\/login/, /^\/blogapi\//]
+}));
 
 app.listen(3000, () => {
   console.log('server is running at http://localhost:3000')

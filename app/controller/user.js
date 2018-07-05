@@ -110,7 +110,7 @@ module.exports = {
                     username:a.username,
                     name:a.name,
                 }
-                const token = jwt.sign(userToken, secret, {expiresIn: '1h'})
+                const token = jwt.sign(userToken, 'test', {expiresIn: '1h'})
 
                 ctx.response.body = { code: 2, msg: '登录成功', userID: a._id, username:a.username, name:a.name,userinfo:a,token:token}   
                 
