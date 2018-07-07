@@ -27,8 +27,8 @@ module.exports = (app) => {
   })
 
   // 用户注册、登录等路由
-  router.post('/register', USER.register)
-  router.post('/login', USER.login)
+  router.post('/api/register', USER.register)
+  router.post('/api/login', USER.login)
   // 保存用户资料
   router.post('/saveUserInfo',USER.saveUserInfo)
   

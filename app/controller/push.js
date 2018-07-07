@@ -75,7 +75,7 @@ module.exports = {
     // 首页获取所有用户动态消息列表
     getPushList:async(ctx,next)=>{
         let reqParam = ctx.request.body;
-        console.log('请求头部为：',ctx.header.authorization)
+        // console.log('请求头部为：',ctx.header.authorization)
 
         console.log(reqParam)
         let total = await Push.count();
@@ -110,6 +110,7 @@ module.exports = {
             })
         })
         .then(res=>{
+            console.log('当前上下文的token解析为？？？',ctx.user)
             ctx.response.body = { code: 200, hasMore: hasMore, pushList: res, total: total }            
         })
         .catch(err=>{

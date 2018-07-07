@@ -44,13 +44,15 @@ app.use(koaBody({
   }
 }));
 
-router(app)
-
 app.use(jwt({
   secret: 'test'
 }).unless({
-  path: [/^\/backapi\/admin\/login/, /^\/blogapi\//]
+  path: [/^\/api\/login/]
 }));
+
+router(app)
+
+
 
 app.listen(3000, () => {
   console.log('server is running at http://localhost:3000')

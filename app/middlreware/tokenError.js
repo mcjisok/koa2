@@ -10,22 +10,32 @@ const verify = util.promisify(jwt.verify);
 module.exports = function () {
   return async function (ctx, next) {
     try {
-      // 获取jwt
-      const token = ctx.header.authorization; 
-      if (token) {
+      const token = ctx.header.authorization;                       //1、获取token
+      if(ctx.request.url === '/api/login'){                         //2、判断是否是前台注册页或登录页api，如果是，就跳过jwt验证
+        await next();
+      }      
+      
+      else if (token) {
         try {
           // 解密payload，获取用户名和ID
-          let payload = await verify(token.split(' ')[1], 'test');
+          let payload = await verify(token.split(' ')[1], 'test');  //3、解析token
           console.log('token解析之后的数据为：',payload)
-        //   ctx.user = {
-        //     name: payload.name,
-        //     id: payload.id
-        //   };
+          ctx.user = {
+            name: payload.name,
+            id: payload.id
+          };
+          // ctx.status = 401
+          await next();
         } catch (err) {
-          console.log('token verify fail: ', err)
+          console.log('发生错误 token verify fail: ', err);
+          console.log(ctx.request)          
+          ctx.status = 400;
+          ctx.body = {
+            success: 0,
+            message: 'token失效'
+          };
         }
       }
-      await next();
     } catch (err) {
       if (err.status === 401) {
         ctx.status = 401;
