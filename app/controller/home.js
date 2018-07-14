@@ -39,5 +39,15 @@ module.exports = {
   mobile:async(ctx,next)=>{
     ctx.response.type = 'html';
     ctx.response.body = fs.createReadStream('././public/dist/index.html');
+    // ctx.response.body =
+    //   `
+    //   <form action="/user/register" method="post">
+    //     <input name="name" type="text" placeholder="请输入用户名：ikcamp"/> 
+    //     <br/>
+    //     <input name="password" type="text" placeholder="请输入密码：123456"/>
+    //     <br/> 
+    //     <button>GoGoGo</button>
+    //   </form>
+    // `
   }
 }

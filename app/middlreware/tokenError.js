@@ -10,10 +10,16 @@ const verify = util.promisify(jwt.verify);
 module.exports = function () {
   return async function (ctx, next) {
     try {
-      const token = ctx.header.authorization;                       //1、获取token
-      if(ctx.request.url === '/api/login'){                         //2、判断是否是前台注册页或登录页api，如果是，就跳过jwt验证
+      const token = ctx.header.authorization;                                //1、获取token
+      console.log(token)
+      if(token === undefined){
+        console.log(ctx.request.url)
         await next();
-      }      
+
+      }
+      // if(ctx.request.url === '/api/login' || ctx.request.url === '/m'){                         //2、判断是否是前台注册页或登录页api，如果是，就跳过jwt验证
+      //   await next();
+      // }      
       
       else if (token) {
         try {

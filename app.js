@@ -32,7 +32,7 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 app.use(cors())
-app.use(tokenError())
+// app.use(tokenError())
 // koabody和中间件bodyParser 冲突重复，只选用一个即可
 app.use(koaBody({
   multipart: true,
@@ -44,11 +44,11 @@ app.use(koaBody({
   }
 }));
 
-app.use(jwt({
-  secret: 'test'
-}).unless({
-  path: [/^\/api\/login/]
-}));
+// app.use(jwt({
+//   secret: 'test'
+// }).unless({
+//   path: [/^\/m/]
+// }));
 
 router(app)
 
