@@ -8,7 +8,7 @@ module.exports = {
 		let pushID = _comment.push
 		let comment = new Comment(_comment)
 
-		let maxCommentReply = _comment.maxCommentReply
+		let maxCommentReply = Number(_comment.maxCommentReply)
 		// console.log(comment)
 
 		if(_comment.cid){
@@ -33,7 +33,7 @@ module.exports = {
 							{path:'reply.to',select:['name','_id','userInfoPhoto']}
 						]
 					})  
-					.slice('comment', maxCommentReply)     
+					.slice('comment', 3)     //slice maxCommentReply 参数必须为number类型，否则会报错
 					.exec()
 			let success = Promise.all([oldComment,docs,c])
 			.then(res=>{
@@ -48,10 +48,12 @@ module.exports = {
 			var a = await Push.findOne({_id:pushID}).exec()
 			if(a){
 				a.comment.unshift(comment._id)
+				console.log(comment._id)
 				console.log(a)
 				let updatePush = await a.save()
 
 				let saveComment = await comment.save()
+				console.log('保存评论',saveComment)
 
 				let c = await Push.findOne({_id:pushID})
 						.populate({ path: 'userID', select: 'username name userInfoPhoto' })
@@ -63,7 +65,7 @@ module.exports = {
 								{path:'reply.to',select:['name','_id','userInfoPhoto']}
 							]
 						})  
-						.slice('comment', maxCommentReply)
+						.slice('comment', 3)
 						.exec()
 
 				let success = Promise.all([updatePush, saveComment,c])

@@ -32,7 +32,10 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 app.use(cors())
+
+// 小程序端开发要先关掉jwt验证 等小程序加上token验证之后再做调整
 // app.use(tokenError())
+
 // koabody和中间件bodyParser 冲突重复，只选用一个即可
 app.use(koaBody({
   multipart: true,
@@ -44,10 +47,11 @@ app.use(koaBody({
   }
 }));
 
+// 小程序端开发要先关掉jwt验证 等小程序加上token验证之后再做调整
 // app.use(jwt({
 //   secret: 'test'
 // }).unless({
-//   path: [/^\/m/]
+//   path: [/^\/m/,/^\/login/,/^\/register/]
 // }));
 
 router(app)
