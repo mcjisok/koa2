@@ -8,6 +8,7 @@ const GROUP = require('../app/controller/group')
 const TAG = require('../app/controller/tag')
 const SUBTAG = require('../app/controller/subtag')
 const IMAGE = require('../app/controller/image')
+const SEARCH =require('../app/controller/search')
 
 module.exports = (app) => {
   router.get('/m',HomeController.mobile)
@@ -123,6 +124,14 @@ module.exports = (app) => {
   router.post('/uploadPhoto',UPLOAD.uploadPhoto)
   // 获取指定相册中的所有照片
   router.post('/getPhotoList',IMAGE.getPhotoList)
+
+
+
+  // 搜索 查询
+  router.get('/getHotSearchList',SEARCH.getHotSearchList)
+  //根据搜索类型和内容 查询详细列表
+  router.get('/getSearchResult',SEARCH.getSearchResult)
+
 
   app.use(router.routes())
     .use(router.allowedMethods())
