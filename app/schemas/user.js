@@ -9,7 +9,7 @@ const ObjectId = Schema.Types.ObjectId
 
 var UserSchema = new mongoose.Schema({
     username: {
-        unique: true,
+        // unique: true,
         type: String
     },
     name: {
@@ -17,7 +17,10 @@ var UserSchema = new mongoose.Schema({
         type: String,
         default:'请修改昵称'
     },    
-    userpassword: String,
+    userpassword: {
+        type:String,
+        default:'111111'
+    },
     usermobile:{
         type:Number,
         default:''
@@ -50,6 +53,10 @@ var UserSchema = new mongoose.Schema({
     role: {
         type: Number,
         default: 51
+    },
+    openID:{
+        type:String,
+        default:''
     },
     meta: {
         createAt: {

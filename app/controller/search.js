@@ -40,14 +40,15 @@ module.exports = {
         // console.log('前台传来的数据为？？',ctx.query)
         let data = ctx.query
         console.log(data)
+        // 根据标签名称检索push
         if(data.searchType === '0'){
             let tag = await SubTag.find({tagName:data.searchContent}).exec()
             let tagID = tag[0]._id
             let pushlist = await Push.find({tagID:tagID})
                             .sort({ _id:-1,pushdateAt:1})
-                            .populate({ path: 'userID', select: 'username name userInfoPhoto' })
-                            .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
-                            .populate({path:'tagID',select:['tagName'],populate:{path:'pTag',select:['tagName']}})
+                            // .populate({ path: 'userID', select: 'username name userInfoPhoto' })
+                            // .populate({ path: 'comment',populate:[{path:'from',select:['name','_id','userInfoPhoto']},{path:'reply.from',select:['name','_id','userInfoPhoto']},{path:'reply.to',select:['name','_id','userInfoPhoto']}]})  
+                            // .populate({path:'tagID',select:['tagName'],populate:{path:'pTag',select:['tagName']}})
                             .exec()
             console.log('pushlist的长度为？？、',pushlist.length)
             if(pushlist.length > 0){
@@ -63,19 +64,65 @@ module.exports = {
                     msg:'搜索成功，结果为空'
                 }
             }
-
-            
             console.log(pushlist)
         }
+        // 根据分组名称检索是否有分组 有的话返回改分组的信息
         else if(data.searchType === '1'){
             let group = await Group.find({groupName:data.searchContent})
                         .populate({path:'groupPushList'})
                         .exec()
-            console.log(group[0].groupPushList)
-            ctx.body = {
-                code:200,
-                grouplist:group
+            // console.log(group[0].groupPushList)
+            console.log(group)
+            if(group.length >0){
+                ctx.body = {
+                    code:200,
+                    grouplist:group,
+                    msg:'搜索成功'
+                }
             }
+            else{
+                ctx.body = {
+                    code:400,
+                    msg:'搜索成功，结果为空'
+                }
+            }            
+        }
+        // 根据用户名称检索用户，如果有的话就返回该分组的信息
+        else if(data.searchType === '2'){
+            let user = await User.find({name:new RegExp((data.searchContent + '.*'), 'i')})
+            console.log(user)
+            if(user.length>0){
+                ctx.body={
+                    code:200,
+                    userlist:user,
+                    msg:'获取成功'
+                }
+            }           
+            else{
+                ctx.body={
+                    code:400,
+                    msg:'搜索成功，结果为空'
+                }
+            } 
+        }
+
+        else if(data.searchType === '3'){
+            let pushlist = await Push.find({pushContent:new RegExp((data.searchContent + '.*'),'i'),isDrafts:false})
+            console.log(pushlist)
+            if(pushlist.length > 0){
+                ctx.body = {
+                    code:200,
+                    pushlist:pushlist,
+                    msg:'搜索成功'
+                }
+            }
+            else{
+                ctx.body = {
+                    code:400,
+                    msg:'搜索成功，结果为空'
+                }
+            }
+            
         }
     }
 }
