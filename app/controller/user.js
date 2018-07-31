@@ -217,16 +217,24 @@ module.exports = {
             console.log('查询不到该openid')
             let newUser = new User({openID:r.openid,name:req.name})
             let createUser = await newUser.save()
-            console.log(createUser)        
+            console.log('用户以保存！！！',createUser)    
+            createUser.userpassword = ''
+            createUser.openID = ''
             ctx.response.body = {
                 code:400,
-                msg:'该用户不存在，已生成用户数据并存入数据库中'
+                msg:'该用户不存在，已生成用户数据并存入数据库中',
+                userdata:createUser
+                // session:r.session_key
             }
         }
         else{
+            userdata[0].userpassword = ''
+            userdata[0].openID = ''
             ctx.response.body = {
                 code:200,
-                msg:'查询成功，用户存在'
+                msg:'查询成功，用户存在',
+                userdata:userdata[0]
+                // session:r.session_key
             }
         }
         // else if(userdata.length  > 1){

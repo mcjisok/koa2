@@ -136,10 +136,10 @@ module.exports = (app) => {
 
   //小程序接口
   // 查询用户是否首次使用该网站小程序
-  router.post('/wechatUser',USER.wechatUser)
+  router.post('/wechat/wechatUser',USER.wechatUser)
 
   // 为首次登陆的小程序用户生成用户ID并保存到数据库
-  router.post('/createWechatUser',USER.createWechatUser)
+  router.post('/wechat/createWechatUser',USER.createWechatUser)
 
   app.use(router.routes())
     .use(router.allowedMethods())
