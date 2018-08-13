@@ -49,5 +49,10 @@ module.exports = {
     //     <button>GoGoGo</button>
     //   </form>
     // `
+  },
+
+  manager:async(ctx,next)=>{
+    ctx.response.type = 'html';
+    ctx.response.body = fs.createReadStream('././public/build/index.html')
   }
 }

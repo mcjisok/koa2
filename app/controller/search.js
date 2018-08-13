@@ -51,7 +51,8 @@ module.exports = {
                             // .populate({path:'tagID',select:['tagName'],populate:{path:'pTag',select:['tagName']}})
                             .exec()
             console.log('pushlist的长度为？？、',pushlist.length)
-            if(pushlist.length > 0){
+            // 判断tagID是否存在，并且pushlist长度需大于0
+            if(tagID !== undefined && pushlist.length > 0){
                 ctx.body = {
                     code:200,
                     pushlist:pushlist,
@@ -121,8 +122,7 @@ module.exports = {
                     code:400,
                     msg:'搜索成功，结果为空'
                 }
-            }
-            
+            }            
         }
     }
 }

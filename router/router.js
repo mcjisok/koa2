@@ -141,6 +141,10 @@ module.exports = (app) => {
   // 为首次登陆的小程序用户生成用户ID并保存到数据库
   router.post('/wechat/createWechatUser',USER.createWechatUser)
 
+
+  // 后台管理系统主页
+  router.get('/manager',HomeController.manager)
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }
