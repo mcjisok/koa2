@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <i-modal visible="{{ msgbox1 }}" bind:ok="hasWebUser" bind:cancel="skip1" ok-text="已注册" cancel-text="跳过">
+    <view>您是否已注册了账号？</view>
+  </i-modal>
+  <i-modal visible="{{ msgbox2 }}" bind:ok="goToBindUser" bind:cancel="skip2" ok-text="是" cancel-text="跳过">
+    <view>是否进行账号同步？</view>
+  </i-modal>
+  <i-message id="message" />
+</view>

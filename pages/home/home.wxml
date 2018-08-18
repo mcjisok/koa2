@@ -1,0 +1,61 @@
+<!--pages/home/home.wxml-->
+<!-- <text>pages/home/home.wxml</text> -->
+<!-- <i-button type="primary" bind:click="handleClick">这是一个按钮</i-button> -->
+<view class='home'>
+  <i-notice-bar icon="systemprompt" loop>
+    2018年世界杯,将于6月14日至7月15日举行
+  </i-notice-bar>
+  <swiper indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{imgUrls}}">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image" width="100%" />
+      </swiper-item>
+    </block>
+  </swiper>
+  <i-cell-group>
+    <i-cell title="我的圈子" value="点击发布" is-link></i-cell>
+  </i-cell-group>
+  <view class='pushlist' wx:for="{{pushlist}}" wx:key="{{key}}">
+    <view class='userInfo'>
+      <i-row>
+        <!--用户信息  -->
+        <i-col span="4" i-class="col-class">
+          <view class='avatarTX'>
+            <i-avatar src="{{api}}{{item.userID.userInfoPhoto}}" size="large"></i-avatar>
+          </view>
+        </i-col>
+        <i-col span="20" i-class="col-class">
+          <view class='title'>
+            <text >{{item.userID.name}}</text>
+          </view>
+          <view class='time'>
+            <text >发布时间：{{item.pushdateAt}}</text>
+          </view>          
+        </i-col>   
+      </i-row>
+    </view>
+
+    <view>
+      <!--push内容主题  -->
+      <i-row>   
+        <i-col span="24" i-class="col-class">
+          <view class='pushContent'>
+            <text>{{item.pushContent}}</text>
+          </view>          
+        </i-col>      
+      </i-row>
+    </view>
+    <view>
+    <!--push图片  -->
+      <i-row>
+
+      </i-row>
+    </view>
+
+    <comment comment="{{item.comment}}" pushID="{{item._id}}" pushIndex="index" api="{{api}}" bind:reply="changePush"></comment>
+    <i-toast id="toast" />
+  </view>
+
+</view>
+

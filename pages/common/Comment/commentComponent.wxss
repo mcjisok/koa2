@@ -1,0 +1,66 @@
+/* pages/common/Comment/commentComponent.wxss */
+.comment{
+  padding: 15px 30rpx 0 30rpx;
+}
+.comment .btn{
+  width: 130rpx;
+  height: 28px;
+  font-size: 14px;
+  line-height: 28px;
+  float: left;
+  padding: 0 5px;
+}
+
+.comment .inputStyle{
+  width: 530rpx;
+  height: 28px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 12px;
+  float: left;
+  margin-right:10rpx;
+  padding-left: 10rpx;
+}
+
+
+.isInputOnFocus{
+  border: 1px solid greenyellow;  
+}
+
+.userTX{
+  padding-left:25%;
+}
+
+.replyWarp{
+  width: 750rpx;
+}
+
+.userName{
+  display: block;
+}
+
+.pushTime{
+  display: block;
+}
+
+.titleP{
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.reply{
+  padding-left:25%;
+}
+
+.replyContent{
+  display: block;
+  margin: 5px 0 15px 0;
+  font-size: 14px;
+  line-height: 18px;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;
+}

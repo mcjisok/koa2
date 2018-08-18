@@ -111,7 +111,8 @@ module.exports = {
                     name:a.name,
                 }
                 const token = jwt.sign(userToken, 'test', {expiresIn: '1h'})
-
+                
+                console.log('请求到的用户信息为？？？',res)
                 ctx.response.body = { code: 2, msg: '登录成功', userID: a._id, username:a.username, name:a.name,userinfo:a,token:token}   
                 
             }

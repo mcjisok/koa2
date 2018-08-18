@@ -1,0 +1,57 @@
+<!--pages/common/Comment/commentComponent.wxml-->
+<view>
+<!-- 评论框 -->
+  <view class='comment' >    
+    <i-row>
+      <i-col span="24" i-class="col-class">
+        <view >
+          <input type='text' class="inputStyle" placeholder='请输入评论' bindfocus="_onFocus" bindblur="_onBlur" bindinput="_changeComment"  ></input>
+        </view>
+        <button class="btn {{isInputOnFocus?'isInputOnFocus':''}}" >评论</button>
+      </i-col>
+      <!-- <i-col span="6" i-class="col-class">
+        
+      </i-col> -->
+    </i-row>  
+  </view>
+
+
+  <!-- 评论列表 -->
+  <view class='commentList' wx:if="{{comment.length > 0}}">
+    <i-row>
+      <i-col span="24" i-class="col-class">
+        <i-cell-group>
+          <i-cell title="留言区" >
+            <!-- <i-icon type="activity" size="28" color="#80848f" slot="icon" /> -->
+            <i-icon type="createtask" size="28" color="#80848f" slot="icon"/>
+          </i-cell>
+        </i-cell-group>
+      </i-col>
+    </i-row>
+    <i-row>
+      <!-- 用户头像 留言内容 -->
+      <view class='replyWarp' wx:for="{{comment}}" wx:key="{{key}}">
+        <i-col span="24" i-class="col-class">
+          <i-col span="4" i-class="col-class">
+            <view class='userTX'>
+              <i-avatar src="{{api}}{{item.from.userInfoPhoto}}" size="default"></i-avatar>
+            </view>
+          </i-col>
+          <i-col span="16" i-class="col-class">
+            <text class="userName titleP">{{item.from.name}}</text>
+            <text class='pushTime titleP'>{{item.meta.createAt}}</text> 
+          </i-col>
+          <i-col span="4" i-class="col-class">
+            <view class='reply'>
+              <i-icon type="interactive" size="22" color="#80848f" />
+            </view>
+          </i-col>
+        </i-col>
+        <i-col span="18" offset="4" i-class="col-class">
+          <text class='replyContent'>{{item.content}}</text>
+        </i-col>
+      </view>      
+      
+    </i-row>
+  </view>
+</view>

@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/home/home"
+  ],
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath":"static/home.png",
+        "selectedIconPath":"static/home1.png"
+      },
+      {
+        "pagePath": "pages/home/home",
+        "text": "日志",
+        "iconPath": "static/msg2.png",
+        "selectedIconPath": "static/msg21.png"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "日志",
+        "iconPath": "static/news.png",
+        "selectedIconPath": "static/news1.png"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "日志",
+        "iconPath": "static/userinfo.png",
+        "selectedIconPath": "static/userinfo1.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh":true
+  }
+}

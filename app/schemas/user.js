@@ -37,6 +37,16 @@ var UserSchema = new mongoose.Schema({
         type:Array,
         default:[]
     },
+    // 个性签名
+    describe:{
+        type:String,
+        default:''
+    },
+    // 性别 0为女 1为男
+    sex:{
+        type:String,
+        default:'男'
+    },
     pushList:{
         type: ObjectId,
         ref:'Push'               
