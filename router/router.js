@@ -35,7 +35,7 @@ module.exports = (app) => {
   
 
   //用户上传照片api
-  router.post('/uploadPushImg', UPLOAD.uploadPushImg)
+  router.post('/uploadPushImg',UPLOAD.uploadPushImg)
   // 上传头像
   router.post('/uploadUserInfoImg', UPLOAD.uploadUserInfoImg)
   // 上传分组封面照片
@@ -75,6 +75,9 @@ module.exports = (app) => {
   // 用户获取指定分组push列表
   router.post('/getGroupPushList',GROUP.getGroupPushList)
 
+  //个人中心=》我的相册 获取图片列表
+  router.post('/getPhotoListInWeb',IMAGE.getPhotoListInWeb)
+  
   router.post('/test1',async(ctx,next)=>{
     console.log(ctx.request.body)
   })

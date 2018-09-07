@@ -10,6 +10,11 @@ var ImageSchema = new mongoose.Schema({
     imageGroupDec:{//相册描述
         type:String
     },
+    albumOwner:{
+        type:ObjectId,
+        ref:'User',
+        default:null
+    },
     imageList:[{
         imageName:{//相片名称
             type:String,

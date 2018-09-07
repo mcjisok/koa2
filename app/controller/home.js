@@ -55,6 +55,6 @@ module.exports = {
   manager:async(ctx,next)=>{
     console.log('请求头为',ctx.request)
     ctx.response.type = 'html';
-    ctx.response.body = fs.createReadStream('././public/build/index.html')
+    ctx.response.body = fs.createReadStream('././public/build/index.html');
   }
 }

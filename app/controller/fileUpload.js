@@ -4,24 +4,31 @@ const Image = require('../models/image')
 
 module.exports = {
     uploadPushImg:async(ctx,next) =>{
-        // console.log('111111111111')
-        const file = ctx.request.body.files.file
-        const filePath = file.path
+        console.log('查看请求数据',ctx.request)
+        const file = ctx.request.body.files.file;
+        const filePath = file.path;
+        const uid = ctx.header.userid;
         // const originalFilename = file.originalFilename
         // console.log(file)
         // console.log(ctx.request.body.files)
-        await new Promise((resolve,reject)=>{
+        let url;
+        let create;
+        let imgname;
+        let timestamp;
+        let up = await new Promise((resolve,reject)=>{
             if (file){
                 fs.readFile(filePath, function (err, data) {
                     console.log('读取文件成功')
-                    const timestamp = Date.now(),
+                    timestamp = Date.now(),
                         type = file.type.split('/')[1],
                         poster = timestamp + '.' + type,
                         newPath = path.join(__dirname, '../../', 'public/pushUpload/' + poster)
                     fs.writeFile(newPath, data, function (err) {
                         console.log('写入文件成功')
-                        const url = '/pushUpload/' + poster                       
-                        resolve(url)
+                        url = '/pushUpload/' + poster
+                        imgname = poster
+                        resolve()
+                        // return url
                         //next()
                     })
                 })
@@ -30,12 +37,62 @@ module.exports = {
                 reject('上传出错')
             }
         })
-        .then(res =>{
-            console.log(res)
-            ctx.response.body = res
-        }).catch(err=>{
-            console.log(err)
-        })
+        
+        //1、判断以当前用户id为名称相册是否已创建
+        let album = await Image.find({imageGroupName:uid})
+        console.log('相册是否已创建',album)
+        //2、如果未创建，则先创建相册再保存图片到该相册
+        if(album.length===0){
+            let data = {
+                imageGroupName:uid,
+                albumOwner:uid
+            }
+            let newAlbum = new Image(data)
+            create = await newAlbum.save()
+            console.log('新建的相册信息为？',create)
+            let newAlbumID = {_id:create._id}
+
+            let save = await Image.update(newAlbumID,{$push:{
+                imageList:{
+                    imageName:imgname,
+                    path:url,
+                    uid:timestamp
+                }
+            }})
+
+            console.log('保存图片到相册的信息为',save)
+            if(save.ok === 1){
+                ctx.response.body = url
+            }
+        }
+        //3、如果已创建，则直接保存到该相册
+        else{
+            console.log('相册已创建，直接保存即可')
+            let albumID ={_id:album[0]._id};
+            console.log('相册ID为？',albumID)
+            let save = await Image.update(albumID,{$push:{
+                imageList:{
+                    imageName:imgname,
+                    path:url,
+                    uid:timestamp
+                }
+            }})
+
+            console.log('保存图片到相册的信息为',save)
+            if(save.ok === 1){
+                ctx.response.body = url
+            }
+        }
+        
+        // console.log(url)
+        // console.log('userid为',uid)
+        // // ctx.response.body = {status:200}
+        // // .then(res =>{
+        // //     console.log(res)
+        // //     ctx.response.body = res
+        // // }).catch(err=>{
+        // //     console.log(err)
+        // // })
     },
 
     uploadUserInfoImg:async(ctx)=>{
@@ -140,10 +197,13 @@ module.exports = {
                 reject('上传出错')
             }
         })
+        
+        let timestamp = (new Date()).getTime(); //生成时间戳 存为uid
 
         let b = await Image.update(id,{$push:{
             imageList:{imageName:imgname,
-            path:imgurl}
+            path:imgurl,
+            uid:timestamp}
         }})
         console.log(b)
         let success = Promise.all([a,b])
@@ -153,5 +213,5 @@ module.exports = {
         .catch(e=>{
             ctx.response.body = { code:400, msg:'上传失败',err:e}
         })
-    }
+    },
 }
