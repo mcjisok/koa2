@@ -30,6 +30,8 @@ module.exports = (app) => {
   // 用户注册、登录等路由
   router.post('/register', USER.register)
   router.post('/login', USER.login)
+  router.get('/verification',USER.verification)  //获取验证码
+
   // 保存用户资料
   router.post('/saveUserInfo',USER.saveUserInfo)
   

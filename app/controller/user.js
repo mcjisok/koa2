@@ -285,5 +285,18 @@ module.exports = {
                 msg:'保存wechat用户成功'
             }
         }
+    },
+
+    verification:async(ctx,next)=>{
+        let Num=""; 
+        for(var i=0;i<6;i++) 
+        { 
+            Num+=Math.floor(Math.random()*10); 
+        } 
+        console.log(Num)
+        ctx.response.body = {
+            code:200,
+            verificationNum:Num
+        }
     }
 }

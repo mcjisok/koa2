@@ -13,7 +13,7 @@ module.exports = {
         // console.log(ctx.request.body.files)
         let url;
         let create;
-        let imgname;
+        let imgname; 
         let timestamp;
         let up = await new Promise((resolve,reject)=>{
             if (file){

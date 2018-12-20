@@ -37,13 +37,14 @@ module.exports = {
     //获取“我的相册”照片列表
 
     getPhotoListInWeb:async(ctx)=>{
+        console.log(ctx.request.body)
         let data = ctx.request.body
         let result = await Image.find({'albumOwner':data.userid})
         console.log(result)
 
         ctx.response.body = {
             code:220,
-            list:result[0].imageList
+            list:result.length>0?result[0].imageList:[]
         }
     }
 }
